@@ -11,7 +11,7 @@
 #define WINDOW_HEIGHT 600
 
 // Font size
-#define FONT_SIZE 32
+#define FONT_SIZE 64
 
 using namespace std;
 
