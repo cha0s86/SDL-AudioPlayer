@@ -16,24 +16,18 @@
 using namespace std;
 
 // Some shitty Mix Chunk??? IDK what it does lol
-Mix_Chunk* audioSample[2];
+Mix_Chunk* audioSample;
 
 char* dropped_file_path;
 
-int Init(char* dropped_file_path) {
+int PlaySoundFromPath(char* dropped_file_path) {
 	
 	// Set up the audio stream (This is more important)
 	Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 512);
 	
 	// Set result to Mix_AllocateChannels for testing...
-	int result = Mix_AllocateChannels(4);
+	Mix_AllocateChannels(4);
 	
-	// If channel mix allocation error...
-	if (result < 0) {
-		fprintf(stderr, "Unable to allocate mixing channels: %s\n", SDL_GetError());
-		exit(-1);
-	}
-
 	// Setup path
 	std::filesystem::path path(dropped_file_path);
 
@@ -44,13 +38,9 @@ int Init(char* dropped_file_path) {
 	std::cout << "Loading file: " << fileName << std::endl;
 
 	// Load waveforms (Important)
-	audioSample[0] = Mix_LoadWAV(fileName);
+	audioSample = Mix_LoadWAV(fileName);
 
-	if (audioSample[0] == NULL) {
-		fprintf(stderr, "Unable to load wave file: %s\n", fileName);
-	}
-
-	Mix_PlayChannel(-1, audioSample[0], 0);
+	Mix_PlayChannel(-1, audioSample, 0);
 
 	return true;
 }
@@ -60,7 +50,6 @@ int main() {
 	SDL_Event event;
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-	atexit(SDL_Quit);
 
 	SDL_Window* window = SDL_CreateWindow("My Window", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
 
@@ -106,7 +95,7 @@ int main() {
 			if (event.type == SDL_DROPFILE) {
 				dropped_file_path = event.drop.file;
 				// Play audio code here
-				Init(dropped_file_path);
+				PlaySoundFromPath(dropped_file_path);
 				SDL_free(dropped_file_path);
 				break;
 			}
