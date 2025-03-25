@@ -1,10 +1,10 @@
+#define SDL_MAIN_HANDLED
 #include <iostream>
 #include <filesystem>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
-#include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <SFML/Audio.hpp>
+#include "SDL2/SDL.h"
+#include "SDL2/SDL_mixer.h"
+#include "SDL2/SDL_image.h"
+#include "SDL2/SDL_ttf.h"
 
 // Window constants
 #define WINDOW_WIDTH 800
@@ -35,7 +35,7 @@ int PlaySoundFromPath(char* dropped_file_path) {
 	const char* fileName = path.filename().string().c_str();
 
 	// Print loading message...
-	std::cout << "Loading file: " << fileName << std::endl;
+	// std::cout << "Loading file: " << fileName << std::endl;
 
 	// Load waveforms (Important)
 	audioSample = Mix_LoadWAV(fileName);
